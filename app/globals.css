@@ -1,0 +1,328 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Brand Colors */
+  --primary: #6e3cd2;
+  --primary-light: #8b5cf6;
+  --primary-dark: #5b32b0;
+  --secondary: #c0185d;
+  --secondary-light: #e91e8c;
+  
+  /* Background Colors */
+  --background: #f8f7ff;
+  --background-white: #ffffff;
+  --foreground: #1a1a2e;
+  
+  /* Neutral Colors */
+  --gray-dark: #0C0C0C;
+  --gray-medium: #6b7280;
+  --gray-light: #9ca3af;
+  --gray-lighter: #e5e7eb;
+  
+  /* Status Colors */
+  --success: #22c55e;
+  --success-light: #dcfce7;
+  --warning: #f59e0b;
+  --warning-light: #fef3c7;
+  --info: #3b82f6;
+  --info-light: #dbeafe;
+  --locked: #9ca3af;
+  
+  /* Card & UI */
+  --card: #ffffff;
+  --card-foreground: #1a1a2e;
+  --popover: #ffffff;
+  --popover-foreground: #1a1a2e;
+  --primary-foreground: #ffffff;
+  --secondary-foreground: #ffffff;
+  --muted: #f3f4f6;
+  --muted-foreground: #6b7280;
+  --accent: #f3f4f6;
+  --accent-foreground: #1a1a2e;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #6e3cd2;
+  
+  /* Radius */
+  --radius: 0.75rem;
+  
+  /* Sidebar */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1a1a2e;
+  --sidebar-primary: #6e3cd2;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f3f4f6;
+  --sidebar-accent-foreground: #1a1a2e;
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: #6e3cd2;
+}
+
+@theme inline {
+  --font-sans: 'Montserrat', sans-serif;
+  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-light: var(--primary-light);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-light: var(--secondary-light);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-success-light: var(--success-light);
+  --color-warning: var(--warning);
+  --color-warning-light: var(--warning-light);
+  --color-info: var(--info);
+  --color-info-light: var(--info-light);
+  --color-locked: var(--locked);
+  --color-gray-dark: var(--gray-dark);
+  --color-gray-medium: var(--gray-medium);
+  --color-gray-light: var(--gray-light);
+  --color-gray-lighter: var(--gray-lighter);
+
+  @keyframes progress-indefinite {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 16px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+.animate-progress-indefinite {
+  animation: progress-indefinite 2s linear infinite;
+}
+
+/* Audio Reader Highlight Styles */
+.being-read {
+  position: relative;
+  background-color: rgba(110, 60, 210, 0.1) !important;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 0 4px rgba(110, 60, 210, 0.1);
+}
+
+.being-read::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #6e3cd2, #c0185d);
+  border-radius: 2px;
+  animation: reading-progress var(--reading-duration, 5s) linear forwards;
+  z-index: 10;
+}
+
+@keyframes reading-progress {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom scrollbar for mobile-like experience */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gray-light);
+  border-radius: 4px;
+}
+
+/* Smooth transitions */
+.transition-slide {
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* Audio waveform animation */
+@keyframes waveform {
+  0%, 100% { height: 20%; }
+  50% { height: 100%; }
+}
+
+.animate-waveform {
+  animation: waveform 1s ease-in-out infinite;
+}
+
+/* Progress bar animation */
+@keyframes progress-fill {
+  from { width: 0%; }
+}
+
+.animate-progress {
+  animation: progress-fill 1s ease-out;
+}
+
+/* Ensure minimum font size for paragraphs, but exclude elements that should keep their original color */
+p:not(.acc-exclude-color, .acc-exclude-color *), 
+.paragraph:not(.acc-exclude-color, .acc-exclude-color *), 
+.text-gray-dark:not(.acc-exclude-color, .acc-exclude-color *), 
+.text-gray-dark *:not(.acc-exclude-color, .acc-exclude-color *) {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #0C0C0C !important;
+}
+
+/* Accessibility Core Protections */
+#accessibility-widget-root {
+  filter: none !important;
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+/* Evitar que el escalado de fuente afecte al widget para mantenerlo usable */
+#accessibility-widget-root,
+#accessibility-widget-root * {
+  font-size: 14px !important;
+  line-height: normal !important;
+}
+
+#accessibility-widget-root h2 { font-size: 18px !important; }
+#accessibility-widget-root span { font-size: 14px !important; }
+#accessibility-widget-root button { font-size: 14px !important; }
+
+/* Accessibility Modes */
+html.acc-high-contrast,
+html.acc-high-contrast body {
+  background-color: #000 !important;
+  color: #FFF !important;
+}
+
+html.acc-high-contrast *:not(#accessibility-widget-root, #accessibility-widget-root *) {
+  background-color: #000 !important;
+  color: #FFF !important;
+  border-color: #FFF !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+html.acc-low-contrast,
+html.acc-low-contrast body {
+  background-color: #f0f0f0 !important;
+  color: #555 !important;
+}
+
+/* El modo enfoque ahora limpia la pantalla para lectura concentrada */
+html.acc-focus-mode body {
+  background-color: #FFFFFF !important;
+  color: #000000 !important;
+}
+
+html.acc-focus-mode *:not(#accessibility-widget-root, #accessibility-widget-root *, body, html) {
+  background-color: transparent !important;
+  color: inherit !important;
+  border-color: #ccc !important;
+  box-shadow: none !important;
+}
+
+html.acc-focus-mode img, 
+html.acc-focus-mode video, 
+html.acc-focus-mode svg:not(#accessibility-widget-root *) {
+  display: none !important;
+}
+
+/* Estilo para el cursor personalizado */
+#acc-custom-cursor {
+  width: 60px !important;
+  height: 60px !important;
+  position: fixed !important;
+  pointer-events: none !important;
+  z-index: 2147483647 !important;
+  filter: drop-shadow(0 0 4px rgba(0,0,0,0.5)) !important;
+  display: none;
+}
+
+html.acc-hide-cursor, 
+html.acc-hide-cursor body, 
+html.acc-hide-cursor * { 
+  cursor: none !important; 
+}
+
+html.acc-hide-cursor #accessibility-widget-root, 
+html.acc-hide-cursor #accessibility-widget-root * { 
+  cursor: auto !important; 
+}
+
+html.acc-hide-cursor #acc-custom-cursor { 
+  display: block !important; 
+}
+
+/* Specific exclusion for accessibility functions on the widget itself */
+html.acc-negative #accessibility-widget-root,
+html.acc-grayscale #accessibility-widget-root,
+html.acc-desaturated #accessibility-widget-root {
+  filter: none !important;
+}
+
+/* Video background utilities */
+.video-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.6) 50%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+}
+
+/* Gradient text effect */
+.gradient-text {
+  background: linear-gradient(to right, var(--primary-light), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Sticky button blur effect */
+.sticky-blur {
+  background: linear-gradient(
+    to top,
+    var(--background) 0%,
+    rgba(248, 247, 255, 0.95) 60%,
+    transparent 100%
+  );
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}

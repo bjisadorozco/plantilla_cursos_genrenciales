@@ -1,0 +1,529 @@
+.audio-reader-container {
+  display: block;
+  width: 100%;
+  margin: 8px 0 0 0;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.audio-reader-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Asegurar distribución correcta dentro de la tarjeta de control */
+.audio-control-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background-color: #ffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.audio-control-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.audio-switch {
+  margin-left: auto;
+}
+
+.mode-toggle-btn {
+  background-color: var(--color-background, #f8f9fa);
+  color: var(--color-text, #333);
+  border: 2px solid var(--color-border, #e0e0e0);
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+  min-width: 180px;
+  height: 36px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+}
+
+.mode-toggle-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.mode-toggle-btn:hover i {
+  transform: scale(1.05);
+}
+
+.mode-toggle-btn:hover .mode-toggle-text {
+  opacity: 1;
+}
+
+.mode-toggle-btn:active {
+  transform: scale(0.96);
+  transition: transform 0.1s ease;
+}
+
+.mode-toggle-btn.listen-mode {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.mode-toggle-btn.read-mode {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.mode-toggle-btn i {
+  font-size: 1.1rem;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.mode-toggle-text {
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+.mode-toggle-btn.changing {
+  transform: scale(1.05);
+  background: linear-gradient(45deg, var(--color-primary), var(--color-primary-light, #e3f2fd));
+  animation: smoothModeChange 0.6s ease-in-out;
+}
+
+.mode-toggle-btn.changing .mode-toggle-text {
+  opacity: 0.8;
+  transform: translateX(-2px);
+}
+
+.mode-toggle-btn.changing i {
+  transform: scale(1.2) rotate(15deg);
+}
+
+@keyframes smoothModeChange {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+
+  30% {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+  }
+
+  60% {
+    transform: scale(1.08);
+    filter: brightness(1.2);
+    box-shadow: 0 6px 20px rgba(var(--color-primary-rgb, 33, 150, 243), 0.4);
+  }
+
+  100% {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+  }
+}
+
+.audio-reader-btn {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.audio-reader-btn:hover {
+  background-color: var(--color-primary);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.audio-reader-btn.playing {
+  background-color: var(--color-primary);
+  color: white;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+  animation: pulse 2s infinite;
+}
+
+.audio-reader-btn i {
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+  color: white;
+  /* Siempre blanco, como solicitaste */
+}
+
+.audio-reader-btn.playing i {
+  transform: scale(1.1);
+  color: white;
+  /* Asegurar que el icono sea blanco cuando está sonando */
+}
+
+/* Indicador de progreso guardado */
+.audio-reader-btn.has-saved-progress {
+  animation: savedProgressIndicator 3s ease-in-out;
+  position: relative;
+}
+
+.audio-reader-btn.has-saved-progress::before {
+  content: "💾";
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  font-size: 0.8rem;
+  background: var(--color-success, #28a745);
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: progressBadgeBounce 2s ease-in-out;
+}
+
+@keyframes savedProgressIndicator {
+
+  0%,
+  100% {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  50% {
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+    transform: translateY(-1px);
+  }
+}
+
+@keyframes progressBadgeBounce {
+
+  0%,
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  20%,
+  80% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Animación al lado del icono, no encima */
+.audio-wave {
+  display: none;
+  align-items: flex-end;
+  gap: 3px;
+  height: 18px;
+  margin-left: 2px;
+  position: relative;
+}
+
+.audio-wave .wave-bar {
+  width: 3px;
+  background-color: white;
+  /* Barras de onda blancas */
+  border-radius: 3px;
+  animation: wave 1.5s infinite ease-in-out;
+}
+
+.audio-wave .wave-bar:nth-child(1) {
+  height: 40%;
+  animation-delay: 0.1s;
+}
+
+.audio-wave .wave-bar:nth-child(2) {
+  height: 70%;
+  animation-delay: 0.3s;
+}
+
+.audio-wave .wave-bar:nth-child(3) {
+  height: 50%;
+  animation-delay: 0.2s;
+}
+
+.audio-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background-color: rgba(255, 255, 255, 0.7);
+  /* Más visible */
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+/* Estilos para elementos siendo leídos */
+.being-read {
+  position: relative;
+  background-color: rgba(110, 60, 210, 0.1) !important;
+}
+
+.being-read::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-primary);
+  animation: readingProgress 5s linear forwards;
+}
+
+@keyframes readingProgress {
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes wave {
+
+  0%,
+  100% {
+    transform: scaleY(0.8);
+  }
+
+  50% {
+    transform: scaleY(1.5);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+  }
+
+  70% {
+    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Efecto de onda al hacer clic */
+.audio-reader-btn:active::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+  to {
+    width: 200%;
+    height: 200%;
+    opacity: 0;
+  }
+}
+
+/* Estilo para cuando la API no está disponible */
+.audio-reader-unsupported {
+  display: none !important;
+}
+
+/* Responsive design para el botón de modo */
+@media (max-width: 768px) {
+  .mode-toggle-btn {
+    min-width: 36px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    padding: 8px;
+    font-size: 0.8rem;
+  }
+
+  .mode-toggle-text {
+    display: none;
+    /* Ocultar texto en móvil */
+  }
+
+  .mode-toggle-btn i {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mode-toggle-btn {
+    min-width: 36px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    padding: 8px;
+    gap: 0;
+  }
+
+  .mode-toggle-text {
+    display: none;
+    /* Ocultar texto en móvil pequeño también */
+  }
+
+  .audio-reader-controls {
+    gap: 6px;
+  }
+}
+
+/* Estilos para el modal de reinicio de audio */
+.audio-restart-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.audio-restart-modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.audio-restart-modal-content {
+  background-color: white;
+  padding: 1.875rem;
+  border-radius: var(--border-radius, 8px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 25rem;
+  position: relative;
+  animation: audioModalFadeIn 0.3s ease-out;
+  text-align: center;
+}
+
+@keyframes audioModalFadeIn {
+  from {
+    transform: translateY(1.25rem);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.audio-restart-modal-content h3 {
+  margin-bottom: 1rem;
+  color: var(--color-primary-dark, #333);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.audio-restart-modal-content p {
+  margin-bottom: 1.5rem;
+  color: var(--color-gray, #666);
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+.audio-restart-modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.audio-restart-modal-button {
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius, 8px);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 6rem;
+}
+
+.audio-restart-modal-button.secondary {
+  background-color: var(--color-gray-light, #f8f9fa);
+  color: var(--color-gray-dark, #495057);
+  border: 1px solid var(--color-border, #e0e0e0);
+}
+
+.audio-restart-modal-button.secondary:hover {
+  background-color: var(--color-gray, #e9ecef);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.audio-restart-modal-button.primary {
+  background-color: var(--color-primary, #007bff);
+  color: white;
+}
+
+.audio-restart-modal-button.primary:hover {
+  background-color: var(--color-primary-dark, #0056b3);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+/* Responsive para el modal */
+@media (max-width: 480px) {
+  .audio-restart-modal-content {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  .audio-restart-modal-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .audio-restart-modal-button {
+    width: 100%;
+  }
+}
+
+/* Fin del archivo CSS */
