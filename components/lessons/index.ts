@@ -9,6 +9,10 @@ export function getLessonSlides(id: number) {
   return lessonsMap[id] || null
 }
 
+export function getAllLessonIds() {
+  return Object.keys(lessonsMap).map(id => parseInt(id));
+}
+
 export function getTotalCourseSlides() {
   return Object.values(lessonsMap).reduce((acc, slides) => acc + slides.length, 0);
 }

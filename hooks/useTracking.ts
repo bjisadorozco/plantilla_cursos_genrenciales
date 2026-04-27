@@ -18,30 +18,47 @@ export const useTracking = () => {
     if (typeof window === 'undefined') return;
 
     const params = new URLSearchParams(window.location.search);
-    const course_code = params.get('course_code');
-    const uid = params.get('uid');
-    const mid = params.get('mid');
+    
+    // Intentar obtener parámetros de la URL o del localStorage (inyectados por PHP)
+    const course_code = params.get('course_code') || localStorage.getItem('COURSE_CODE');
+    const uid = params.get('uid') || localStorage.getItem('COURSE_ID');
+    const mid = params.get('mid') || localStorage.getItem('MODULE_ID');
+    const php_user_id = localStorage.getItem('USER_ID');
+    const php_fullname = localStorage.getItem('FULLNAME');
+
+    // Si el nombre viene de PHP, lo actualizamos de inmediato
+    if (php_fullname) {
+      setUserName(php_fullname);
+    }
 
     if (!course_code || !uid || !mid) {
       return;
     }
 
     try {
-      // 1. Obtención de datos del usuario
-      const userResponse = await axios.get('../../../data_user.php', {
-        params: { course_code, uid, mid }
-      });
+      let userId = php_user_id;
 
-      const userData = userResponse.data;
-      if (!userData?.data?.user_id) {
-        console.error('User ID not found in server response');
-        return;
+      // Si no tenemos el userId de PHP, lo buscamos en el servidor
+      if (!userId) {
+        const userResponse = await axios.get('../../../data_user.php', {
+          params: { course_code, uid, mid }
+        });
+
+        const userData = userResponse.data;
+        if (userData?.data?.user_id) {
+          userId = userData.data.user_id;
+          
+          // Actualizar nombre si no venía de PHP
+          const name = userData.data.first_name || userData.data.name || userData.data.user_name;
+          if (name && !php_fullname) {
+            setUserName(name);
+          }
+        }
       }
 
-      // Establecer el nombre del usuario si está disponible (intentando varios campos comunes)
-      const name = userData.data.first_name || userData.data.name || userData.data.user_name;
-      if (name) {
-        setUserName(name);
+      if (!userId) {
+        console.error('User ID not found');
+        return;
       }
 
       // 2. Actualización de progreso
@@ -49,13 +66,13 @@ export const useTracking = () => {
         progress: localStorage.getItem('porcentaje'),
         module_id: mid,
         unique_course_id: uid,
-        asistencia_id: userData.data.user_id,
+        asistencia_id: userId,
         react_progress_object: localStorage.getItem('arrayValidacion')
       });
     } catch (error) {
       console.error('Error syncing tracking progress:', error);
     }
-  }, []);
+  }, [setUserName]);
 
   const updateProgress = useCallback((globalIndex: number) => {
     if (typeof window === 'undefined') return;

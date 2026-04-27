@@ -102,7 +102,7 @@ export function SlideContainer({
             
             <button
               onClick={goToNextSlide}
-              className="bg-gradient-to-r from-[#6a11cb] via-[#91208a] to-[#d52b5e] hover:opacity-90 text-white font-semibold py-3.5 px-5 min-w-[160px] rounded-full flex items-center justify-center gap-2 transition-colors shadow-lg shadow-primary/30"
+              className="bg-gradient-to-r from-primary via-secondary to-secondary hover:opacity-90 text-white font-semibold py-3.5 px-5 min-w-[160px] rounded-full flex items-center justify-center gap-2 transition-colors shadow-lg shadow-primary/30"
             >
               <span>
                 {currentSlideIndex === totalSlides - 1 ? (

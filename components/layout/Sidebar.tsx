@@ -132,7 +132,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
           <ul className="flex flex-col gap-1">
             {menuItems.map((item) => (
               <li key={item.href}>
-                <Link
+                <a
                   href={item.href}
                   onClick={onClose}
                   className={cn(
@@ -146,7 +146,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                   <span className="font-medium text-base">
                     <TranslatedText>{item.label}</TranslatedText>
                   </span>
-                </Link>
+                </a>
               </li>
             ))}
           </ul>

@@ -62,6 +62,23 @@
   --sidebar-ring: #6e3cd2;
 }
 
+/* Fail-safe visibility for production (in case hydration is delayed or fails) */
+.opacity-0 {
+  transition: opacity 0.5s ease;
+}
+
+/* After 3 seconds, if React hasn't loaded, make everything visible */
+@keyframes force-visible {
+  from { opacity: 0; }
+  to { opacity: 1 !important; visibility: visible !important; }
+}
+
+[data-hydrated="false"] .opacity-0,
+[data-hydrated="false"] .invisible {
+  animation: force-visible 0.5s forwards;
+  animation-delay: 3s;
+}
+
 @theme inline {
   --font-sans: 'Montserrat', sans-serif;
   --font-mono: 'Geist Mono', 'Geist Mono Fallback';

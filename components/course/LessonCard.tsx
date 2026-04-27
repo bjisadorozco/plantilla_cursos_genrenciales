@@ -118,8 +118,8 @@ export function LessonCard({
   }
 
   return (
-    <Link href={href} className="block hover:opacity-90 transition-opacity">
+    <a href={href} className="block hover:opacity-90 transition-opacity">
       {CardContent}
-    </Link>
+    </a>
   )
 }

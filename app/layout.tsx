@@ -55,7 +55,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className={`${montserrat.variable} ${pacifico.variable} bg-background`} suppressHydrationWarning>
-      <body className="font-sans antialiased" suppressHydrationWarning>
+      <body className="font-sans antialiased" data-hydrated="false" suppressHydrationWarning>
         <Providers>
           {children}
         </Providers>

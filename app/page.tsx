@@ -1,26 +1,20 @@
 'use client'
 
-import { useRef, useEffect, useState } from 'react'
+import { useRef } from 'react'
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
-import { useAppTranslation, TranslatedText } from '@/contexts/TranslationContext'
-import { TopNavbar } from '@/components/layout/TopNavbar'
+import { TranslatedText } from '@/contexts/TranslationContext'
+import { LanguageToggle } from '@/components/layout/TopNavbar'
 
 export default function LandingPage() {
   const videoRef = useRef<HTMLVideoElement>(null)
-  const [isLoaded, setIsLoaded] = useState(false)
-
-  useEffect(() => {
-    setIsLoaded(true)
-  }, [])
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden">
-      {/* Top Navbar with language flag */}
-      <div className="absolute top-0 left-0 right-0 z-50">
-        <nav className="max-w-[800px] mx-auto px-4 h-14 flex items-center justify-end">
-          <LanguageFlag />
-        </nav>
+    <div className="relative min-h-screen w-full overflow-hidden bg-black">
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <div className="max-w-[800px] mx-auto px-4 h-14 flex items-center justify-end">
+          <LanguageToggle />
+        </div>
       </div>
 
       {/* Video Background */}
@@ -42,9 +36,9 @@ export default function LandingPage() {
       </div>
 
       {/* Content */}
-      <div className={`relative z-10 min-h-screen flex flex-col justify-between p-6 md:p-12 lg:p-16 transition-opacity duration-700 acc-exclude-color ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+      <div className="relative z-10 min-h-screen flex flex-col justify-between p-6 md:p-12 lg:p-16 transition-opacity duration-700 acc-exclude-color opacity-100">
         {/* Top Badge */}
-        <div className="flex items-center gap-2 pt-10">
+        <div className="flex items-center gap-2 pt-20 md:pt-16">
           <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
           <span className="text-secondary font-semibold text-sm tracking-wider uppercase">
             <TranslatedText>Inicia tu formación</TranslatedText>
@@ -83,41 +77,5 @@ export default function LandingPage() {
   )
 }
 
-// Flag component for landing page
-function LanguageFlag() {
-  const { language, setLanguage } = useAppTranslation()
-  
-  const toggleLanguage = () => {
-    setLanguage(language === 'es' ? 'en' : 'es')
-  }
+// LanguageFlag component removed to use global TopNavbar instead
 
-  return (
-    <button
-      onClick={toggleLanguage}
-      className="p-1.5 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-colors flex items-center gap-1.5"
-      aria-label={language === 'es' ? 'Switch to English' : 'Cambiar a Espanol'}
-    >
-      {language === 'es' ? (
-        <svg width="24" height="18" viewBox="0 0 24 18" className="rounded-sm">
-          <rect width="24" height="18" fill="#c60b1e"/>
-          <rect width="24" height="9" y="4.5" fill="#ffc400"/>
-        </svg>
-      ) : (
-        <svg width="24" height="18" viewBox="0 0 24 18" className="rounded-sm">
-          <rect width="24" height="18" fill="#fff"/>
-          <rect width="24" height="1.38" y="0" fill="#b22234"/>
-          <rect width="24" height="1.38" y="2.77" fill="#b22234"/>
-          <rect width="24" height="1.38" y="5.54" fill="#b22234"/>
-          <rect width="24" height="1.38" y="8.31" fill="#b22234"/>
-          <rect width="24" height="1.38" y="11.08" fill="#b22234"/>
-          <rect width="24" height="1.38" y="13.85" fill="#b22234"/>
-          <rect width="24" height="1.38" y="16.62" fill="#b22234"/>
-          <rect width="9.6" height="9.69" fill="#3c3b6e"/>
-        </svg>
-      )}
-      <span className="text-xs font-semibold text-white uppercase">
-        {language}
-      </span>
-    </button>
-  )
-}

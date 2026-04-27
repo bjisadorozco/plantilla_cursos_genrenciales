@@ -11,16 +11,30 @@ interface TranslationContextType {
 
 const TranslationContext = createContext<TranslationContextType | undefined>(undefined)
 
-// Simple translation cache
+// Simple translation cache keyed by language and original text
 const translationCache: Record<string, string> = {}
 
 export function TranslationProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>('es')
 
-  // Initialize language from localStorage
+  // Initialize language from localStorage or window.COURSE_DATA
   useEffect(() => {
     const savedLang = localStorage.getItem('app-language') as Language
-    if (savedLang && (savedLang === 'es' || savedLang === 'en')) {
+    const courseData = (window as any).COURSE_DATA
+    const backendLang = courseData?.language as Language
+
+    // Check if there's a language in the URL (highest priority)
+    const urlParams = new URLSearchParams(window.location.search)
+    const urlLang = urlParams.get('lang') as Language
+
+    if (urlLang && (urlLang === 'es' || urlLang === 'en')) {
+      setLanguageState(urlLang)
+      localStorage.setItem('app-language', urlLang)
+    } else if (backendLang && (backendLang === 'es' || backendLang === 'en')) {
+      // Only use backend lang if we don't have a saved preference or if it's explicitly provided
+      setLanguageState(backendLang)
+      localStorage.setItem('app-language', backendLang)
+    } else if (savedLang && (savedLang === 'es' || savedLang === 'en')) {
       setLanguageState(savedLang)
     }
   }, [])
@@ -63,25 +77,26 @@ export function TranslatedText({ children, className }: { children: ReactNode, c
       return
     }
 
-    if (translationCache[originalText]) {
-      setTranslatedText(translationCache[originalText])
+    const cacheKey = `${language}:${originalText}`
+
+    if (translationCache[cacheKey]) {
+      setTranslatedText(translationCache[cacheKey])
       return
     }
 
     const translate = async () => {
       setLoading(true)
       try {
-        // Using a free Google Translate endpoint (unofficial, but works for small projects)
         const response = await fetch(
-          `https://translate.googleapis.com/translate_a/single?client=gtx&sl=es&tl=en&dt=t&q=${encodeURIComponent(originalText)}`
+          `/api/translate?text=${encodeURIComponent(originalText)}&lang=${language}`
         )
         const data = await response.json()
-        const translated = data[0].map((item: any) => item[0]).join('')
-        translationCache[originalText] = translated
+        const translated = data.translatedText || originalText
+        translationCache[cacheKey] = translated
         setTranslatedText(translated)
       } catch (error) {
         console.error('Translation error:', error)
-        setTranslatedText(originalText) // Fallback to original
+        setTranslatedText(originalText)
       } finally {
         setLoading(false)
       }

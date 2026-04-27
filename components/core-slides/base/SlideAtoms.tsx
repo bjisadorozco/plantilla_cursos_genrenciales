@@ -12,7 +12,7 @@ import { HighlightBox as BaseHighlightBox, QuoteCard } from '@/components/course
 
 export function SlideTitle({ children, className }: { children: ReactNode, className?: string }) {
   return (
-    <h1 className={cn("text-2xl md:text-3xl font-bold text-primary text-balance readable", className)}>
+    <h1 className={cn("text-2xl md:text-3xl font-bold text-primary text-balance", className)}>
       <TranslatedText>{children}</TranslatedText>
     </h1>
   )
@@ -20,7 +20,7 @@ export function SlideTitle({ children, className }: { children: ReactNode, class
 
 export function SlideSubtitle({ children, className }: { children: ReactNode, className?: string }) {
   return (
-    <h2 className={cn("text-xl md:text-2xl font-bold text-primary/80 text-balance readable", className)}>
+    <h2 className={cn("text-xl md:text-2xl font-bold text-primary/80 text-balance", className)}>
       <TranslatedText>{children}</TranslatedText>
     </h2>
   )
@@ -126,7 +126,7 @@ export function SlideQuote({ children, className }: { children: ReactNode, class
 
 export function Slide({ children, className }: { children: ReactNode, className?: string }) {
   return (
-    <div className={cn("flex flex-col gap-6 animate-in fade-in slide-in-from-right-4 duration-500", className)}>
+    <div className={cn("flex flex-col gap-6", className)}>
       {children}
     </div>
   )

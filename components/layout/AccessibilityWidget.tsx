@@ -90,102 +90,102 @@ export function AccessibilityWidget() {
       )}
     >
       {/* Header */}
-      <div className="bg-blue-600 p-4 flex items-center justify-center gap-2 text-white relative">
-        <Accessibility className="w-6 h-6" />
-        <h2 className="font-bold text-lg">
+      <div className="bg-blue-600 p-4 flex items-center justify-center gap-2 text-white relative acc-exclude-color">
+        <Accessibility className="w-6 h-6 acc-exclude-color" />
+        <h2 className="font-bold text-lg acc-exclude-color">
           <TranslatedText>Accesibilidad de Sofactia</TranslatedText>
         </h2>
         <button 
           onClick={() => setIsOpen(false)}
-          className="absolute right-4 top-1/2 -translate-y-1/2 hover:bg-blue-700 p-1 rounded-full transition-colors"
+          className="absolute right-4 top-1/2 -translate-y-1/2 hover:bg-blue-700 p-1 rounded-full transition-colors acc-exclude-color"
         >
-          <ChevronUp className="w-6 h-6" />
+          <ChevronUp className="w-6 h-6 acc-exclude-color" />
         </button>
       </div>
 
-      <div className="p-4 overflow-y-auto custom-scrollbar flex-1">
+      <div className="p-4 overflow-y-auto custom-scrollbar flex-1 acc-exclude-color">
         {/* Reset Button */}
         <button 
           onClick={resetAll}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-xl p-4 flex flex-col items-center justify-center gap-2 transition-colors shadow-md mb-6"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-xl p-4 flex flex-col items-center justify-center gap-2 transition-colors shadow-md mb-6 acc-exclude-color"
         >
-          <RotateCcw className="w-6 h-6" />
-          <span className="font-semibold text-sm text-center">
+          <RotateCcw className="w-6 h-6 acc-exclude-color" />
+          <span className="font-semibold text-sm text-center acc-exclude-color">
             <TranslatedText>Restablecer todas las configuraciones de accesibilidad</TranslatedText>
           </span>
         </button>
 
         {/* Navigation Arrows */}
-        <div className="flex gap-2 mb-6">
+        <div className="flex gap-2 mb-6 acc-exclude-color">
           <button 
             onClick={() => setPosition('left')}
             className={cn(
-              "p-2 rounded-lg border transition-colors shadow-sm",
+              "p-2 rounded-lg border transition-colors shadow-sm acc-exclude-color",
               position === 'left' ? "bg-blue-600 text-white border-blue-600" : "border-gray-200 hover:bg-gray-50 text-blue-600"
             )}
           >
-            <ArrowLeft className="w-6 h-6" />
+            <ArrowLeft className="w-6 h-6 acc-exclude-color" />
           </button>
           <button 
             onClick={() => setPosition('right')}
             className={cn(
-              "p-2 rounded-lg border transition-colors shadow-sm",
+              "p-2 rounded-lg border transition-colors shadow-sm acc-exclude-color",
               position === 'right' ? "bg-blue-600 text-white border-blue-600" : "border-gray-200 hover:bg-gray-50 text-blue-600"
             )}
           >
-            <ArrowRight className="w-6 h-6" />
+            <ArrowRight className="w-6 h-6 acc-exclude-color" />
           </button>
         </div>
 
         {/* Sections */}
-        <div className="space-y-4 pb-4">
+        <div className="space-y-4 pb-4 acc-exclude-color">
           <AccessibilitySection 
             title="Ajustes Visuales" 
-            icon={<Eye className="w-5 h-5 text-blue-600" />}
+            icon={<Eye className="w-5 h-5 text-blue-600 acc-exclude-color" />}
             defaultOpen={true}
           >
             <OptionRow 
               label="Aumentar Texto" 
-              icon={<Type className="w-5 h-5 text-blue-600" />}
+              icon={<Type className="w-5 h-5 text-blue-600 acc-exclude-color" />}
               control={<ControlButton icon={<Plus />} onClick={increaseFontSize} />}
             />
             <OptionRow 
               label="Disminuir Texto" 
-              icon={<Type className="w-5 h-5 text-blue-600" />}
+              icon={<Type className="w-5 h-5 text-blue-600 acc-exclude-color" />}
               control={<ControlButton icon={<Minus />} onClick={decreaseFontSize} />}
             />
             <OptionRow 
               label="Aumentar Espaciado" 
-              icon={<Type className="w-5 h-5 text-blue-600" />}
+              icon={<Type className="w-5 h-5 text-blue-600 acc-exclude-color" />}
               control={<ControlButton icon={<Plus />} onClick={increaseLineHeight} />}
             />
             <OptionRow 
               label="Saturación" 
-              icon={<Palette className="w-5 h-5 text-blue-600" />}
+              icon={<Palette className="w-5 h-5 text-blue-600 acc-exclude-color" />}
               control={<Toggle checked={saturation} onChange={toggleSaturation} />}
               onClick={toggleSaturation}
             />
             <OptionRow 
               label="Contraste Alto" 
-              icon={<Sun className="w-5 h-5 text-blue-600" />}
+              icon={<Sun className="w-5 h-5 text-blue-600 acc-exclude-color" />}
               control={<Toggle checked={highContrast} onChange={toggleHighContrast} />}
               onClick={toggleHighContrast}
             />
             <OptionRow 
               label="Contraste Bajo" 
-              icon={<Moon className="w-5 h-5 text-blue-600" />}
+              icon={<Moon className="w-5 h-5 text-blue-600 acc-exclude-color" />}
               control={<Toggle checked={lowContrast} onChange={toggleLowContrast} />}
               onClick={toggleLowContrast}
             />
             <OptionRow 
               label="Invertir Colores" 
-              icon={<CircleOff className="w-5 h-5 text-blue-600" />}
+              icon={<CircleOff className="w-5 h-5 text-blue-600 acc-exclude-color" />}
               control={<Toggle checked={negative} onChange={toggleNegative} />}
               onClick={toggleNegative}
             />
             <OptionRow 
               label="Escala de Grises" 
-              icon={<Palette className="w-5 h-5 text-blue-600" />}
+              icon={<Palette className="w-5 h-5 text-blue-600 acc-exclude-color" />}
               control={<Toggle checked={grayscale} onChange={toggleGrayscale} />}
               onClick={toggleGrayscale}
             />
@@ -193,19 +193,19 @@ export function AccessibilityWidget() {
 
           <AccessibilitySection 
             title="Lectura y Dislexia" 
-            icon={<BookOpen className="w-5 h-5 text-blue-600" />}
+            icon={<BookOpen className="w-5 h-5 text-blue-600 acc-exclude-color" />}
           >
             <OptionRow 
               label="Fuente Legible" 
-              icon={<ScanText className="w-5 h-5 text-blue-600" />}
+              icon={<ScanText className="w-5 h-5 text-blue-600 acc-exclude-color" />}
               control={<Toggle checked={legibleFont} onChange={toggleLegibleFont} />}
               onClick={toggleLegibleFont}
             />
-            <div className="p-4 pt-0">
-              <span className="text-xs font-semibold text-gray-500 uppercase mb-2 block">
+            <div className="p-4 pt-0 acc-exclude-color">
+              <span className="text-xs font-semibold text-gray-500 uppercase mb-2 block acc-exclude-color">
                 <TranslatedText>Fuentes para Dislexia</TranslatedText>
               </span>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-2 acc-exclude-color">
                 {[
                   { id: 1, name: 'OpenDyslexic' },
                   { id: 2, name: 'Comic Sans' },
@@ -216,7 +216,7 @@ export function AccessibilityWidget() {
                     key={font.id}
                     onClick={() => setDyslexiaStyle(dyslexiaStyle === font.id ? 0 : font.id)}
                     className={cn(
-                      "text-xs p-2 rounded-lg border transition-all text-center",
+                      "text-xs p-2 rounded-lg border transition-all text-center acc-exclude-color",
                       dyslexiaStyle === font.id 
                         ? "bg-blue-600 text-white border-blue-600 shadow-sm" 
                         : "bg-gray-50 border-gray-100 text-gray-700 hover:bg-gray-100"
@@ -229,7 +229,7 @@ export function AccessibilityWidget() {
             </div>
             <OptionRow 
               label="Escuchar Texto" 
-              icon={<Volume2 className="w-5 h-5 text-blue-600" />}
+              icon={<Volume2 className="w-5 h-5 text-blue-600 acc-exclude-color" />}
               control={<Toggle checked={isTextToSpeechOn} onChange={toggleTextToSpeech} />}
               onClick={toggleTextToSpeech}
             />
@@ -237,35 +237,35 @@ export function AccessibilityWidget() {
 
           <AccessibilitySection 
             title="Navegación" 
-            icon={<Target className="w-5 h-5 text-blue-600" />}
+            icon={<Target className="w-5 h-5 text-blue-600 acc-exclude-color" />}
           >
             <OptionRow 
               label="Resaltar Enlaces" 
-              icon={<LinkIcon className="w-5 h-5 text-blue-600" />}
+              icon={<LinkIcon className="w-5 h-5 text-blue-600 acc-exclude-color" />}
               control={<Toggle checked={linksHighlighted} onChange={toggleLinksHighlighted} />}
               onClick={toggleLinksHighlighted}
             />
             <OptionRow 
               label="Resaltar Encabezados" 
-              icon={<Heading className="w-5 h-5 text-blue-600" />}
+              icon={<Heading className="w-5 h-5 text-blue-600 acc-exclude-color" />}
               control={<Toggle checked={headingsHighlighted} onChange={toggleHeadingsHighlighted} />}
               onClick={toggleHeadingsHighlighted}
             />
             <OptionRow 
               label="Cursor Grande" 
-              icon={<MousePointer2 className="w-5 h-5 text-blue-600" />}
+              icon={<MousePointer2 className="w-5 h-5 text-blue-600 acc-exclude-color" />}
               control={<Toggle checked={bigCursor} onChange={toggleBigCursor} />}
               onClick={toggleBigCursor}
             />
             <OptionRow 
               label="Navegación Teclado" 
-              icon={<Keyboard className="w-5 h-5 text-blue-600" />}
+              icon={<Keyboard className="w-5 h-5 text-blue-600 acc-exclude-color" />}
               control={<Toggle checked={keyboardNav} onChange={toggleKeyboardNav} />}
               onClick={toggleKeyboardNav}
             />
             <OptionRow 
               label="Navegación Voz" 
-              icon={<Mic className="w-5 h-5 text-blue-600" />}
+              icon={<Mic className="w-5 h-5 text-blue-600 acc-exclude-color" />}
               control={<Toggle checked={voiceNav} onChange={toggleVoiceNav} />}
               onClick={toggleVoiceNav}
             />
@@ -273,23 +273,23 @@ export function AccessibilityWidget() {
 
           <AccessibilitySection 
             title="Otros Ajustes" 
-            icon={<MinusCircle className="w-5 h-5 text-blue-600" />}
+            icon={<MinusCircle className="w-5 h-5 text-blue-600 acc-exclude-color" />}
           >
             <OptionRow 
               label="Ocultar Imágenes" 
-              icon={<ImageIcon className="w-5 h-5 text-blue-600" />}
+              icon={<ImageIcon className="w-5 h-5 text-blue-600 acc-exclude-color" />}
               control={<Toggle checked={imagesHidden} onChange={toggleImagesHidden} />}
               onClick={toggleImagesHidden}
             />
             <OptionRow 
               label="Detener Sonidos" 
-              icon={<VolumeX className="w-5 h-5 text-blue-600" />}
+              icon={<VolumeX className="w-5 h-5 text-blue-600 acc-exclude-color" />}
               control={<Toggle checked={soundsStopped} onChange={toggleSoundsStopped} />}
               onClick={toggleSoundsStopped}
             />
             <OptionRow 
               label="Modo Enfoque" 
-              icon={<Target className="w-5 h-5 text-blue-600" />}
+              icon={<Target className="w-5 h-5 text-blue-600 acc-exclude-color" />}
               control={<Toggle checked={focusMode} onChange={toggleFocusMode} />}
               onClick={toggleFocusMode}
             />
@@ -319,21 +319,21 @@ function AccessibilitySection({
   }
 
   return (
-    <div className="border border-gray-100 rounded-xl overflow-hidden shadow-sm">
+    <div className="border border-gray-100 rounded-xl overflow-hidden shadow-sm acc-exclude-color">
       <button 
         onClick={handleToggle}
-        className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-gray-100 transition-colors"
+        className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-gray-100 transition-colors acc-exclude-color"
       >
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 acc-exclude-color">
           {icon}
-          <span className="font-bold text-gray-800">
+          <span className="font-bold text-gray-800 acc-exclude-color">
             <TranslatedText>{title}</TranslatedText>
           </span>
         </div>
-        {isOpen ? <ChevronUp className="w-5 h-5 text-blue-600" /> : <ChevronDown className="w-5 h-5 text-blue-600" />}
+        {isOpen ? <ChevronUp className="w-5 h-5 text-blue-600 acc-exclude-color" /> : <ChevronDown className="w-5 h-5 text-blue-600 acc-exclude-color" />}
       </button>
       {isOpen && (
-        <div className="bg-white divide-y divide-gray-50">
+        <div className="bg-white divide-y divide-gray-50 acc-exclude-color">
           {children}
         </div>
       )}
@@ -355,14 +355,14 @@ function OptionRow({
   return (
     <div 
       className={cn(
-        "flex items-center justify-between p-4",
+        "flex items-center justify-between p-4 acc-exclude-color",
         onClick && "cursor-pointer hover:bg-gray-100 transition-colors active:bg-gray-200"
       )}
       onClick={onClick}
     >
-      <div className="flex items-center gap-3 pointer-events-none">
+      <div className="flex items-center gap-3 pointer-events-none acc-exclude-color">
         {icon}
-        <span className="text-gray-700 font-medium">
+        <span className="text-gray-700 font-medium acc-exclude-color">
           <TranslatedText>{label}</TranslatedText>
         </span>
       </div>

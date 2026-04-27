@@ -46,29 +46,29 @@ export function BottomNavbar() {
             const isActive = pathname === item.href
             
             return (
-              <Link
+              <a
                 key={item.href}
                 href={item.href}
                 className={cn(
                   'flex flex-col items-center justify-center gap-1 py-2 px-4 rounded-lg transition-colors',
                   isActive 
-                    ? 'text-primary' 
-                    : 'text-gray-medium hover:text-primary'
+                    ? 'text-[#6e3cd2]' 
+                    : 'text-gray-medium hover:text-[#6e3cd2]'
                 )}
               >
                 <div className={cn(
                   'transition-colors',
-                  isActive && 'text-primary'
+                  isActive && 'text-[#6e3cd2]'
                 )}>
                   {item.icon}
                 </div>
                 <span className={cn(
                   'text-xs font-medium',
-                  isActive ? 'text-primary' : 'text-gray-medium'
+                  isActive ? 'text-[#6e3cd2]' : 'text-gray-medium'
                 )}>
                   <TranslatedText>{item.label}</TranslatedText>
                 </span>
-              </Link>
+              </a>
             )
           })}
         </div>

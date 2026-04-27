@@ -181,16 +181,31 @@ export function AccessibilityProvider({ children }: { children: React.ReactNode 
     const filterString = filters.join(' ') || 'none'
     root.style.filter = filterString
     
-    // 3. Special case: Counter-filter for widget and protected elements
-    const protectedElements = ['accessibility-widget-root', 'slide-navigation-container']
-    protectedElements.forEach(id => {
-      const el = document.getElementById(id)
-      if (el) {
-        let revertFilter = ''
-        if (s.negative) revertFilter += 'invert(100%) '
-        el.style.filter = revertFilter || 'none'
+    // 3. Move accessibility widget to a separate container outside the affected area
+    let widgetContainer = document.getElementById('accessibility-widget-container')
+    if (!widgetContainer) {
+      widgetContainer = document.createElement('div')
+      widgetContainer.id = 'accessibility-widget-container'
+      widgetContainer.style.position = 'fixed'
+      widgetContainer.style.top = '0'
+      widgetContainer.style.left = '0'
+      widgetContainer.style.width = '100%'
+      widgetContainer.style.height = '100%'
+      widgetContainer.style.pointerEvents = 'none'
+      widgetContainer.style.zIndex = '9999'
+      widgetContainer.style.filter = 'none'
+      widgetContainer.style.fontSize = '100%'
+      widgetContainer.style.fontFamily = 'Montserrat, sans-serif'
+      widgetContainer.style.lineHeight = 'normal'
+      widgetContainer.style.letterSpacing = 'normal'
+      
+      const widget = document.getElementById('accessibility-widget-root')
+      if (widget) {
+        widget.style.pointerEvents = 'auto'
+        widgetContainer.appendChild(widget)
+        document.body.appendChild(widgetContainer)
       }
-    })
+    }
 
     // 4. Dynamic Style Tag for Micro-functions that need universal selectors
     let styleTag = document.getElementById('acc-dynamic-styles') as HTMLStyleElement
@@ -204,28 +219,28 @@ export function AccessibilityProvider({ children }: { children: React.ReactNode 
 
     if (s.lineHeightMultiplier > 1) {
       const actualLineHeight = 1.5 + (s.lineHeightMultiplier - 1)
-      dynamicCSS += `body *:not(#accessibility-widget-root, #accessibility-widget-root *, #slide-navigation-container, #slide-navigation-container *) { line-height: ${actualLineHeight} !important; }`
+      dynamicCSS += `body *:not(#accessibility-widget-root):not(#accessibility-widget-root *):not(#accessibility-widget-container):not(#accessibility-widget-container *):not(.acc-exclude-color):not(.acc-exclude-color *) { line-height: ${actualLineHeight} !important; }`
     }
 
     if (s.legibleFont) {
-      dynamicCSS += `*:not(#accessibility-widget-root, #accessibility-widget-root *, #slide-navigation-container, #slide-navigation-container *) { font-family: Arial, sans-serif !important; letter-spacing: 0.05em !important; }`
+      dynamicCSS += `*:not(#accessibility-widget-root):not(#accessibility-widget-root *):not(#accessibility-widget-container):not(#accessibility-widget-container *):not(.acc-exclude-color):not(.acc-exclude-color *) { font-family: Arial, sans-serif !important; letter-spacing: 0.05em !important; }`
     }
 
     if (s.linksHighlighted) {
-      dynamicCSS += `a:not(#accessibility-widget-root *, #slide-navigation-container *) { background-color: #FFFF00 !important; color: #000 !important; font-weight: bold !important; padding: 2px !important; border-radius: 4px !important; }`
+      dynamicCSS += `a:not(#accessibility-widget-root):not(#accessibility-widget-root *):not(#accessibility-widget-container):not(#accessibility-widget-container *):not(.acc-exclude-color):not(.acc-exclude-color *) { background-color: #FFFF00 !important; color: #000 !important; font-weight: bold !important; padding: 2px !important; border-radius: 4px !important; }`
     }
 
     if (s.headingsHighlighted) {
-      dynamicCSS += `h1:not(#accessibility-widget-root *, #slide-navigation-container *), h2:not(#accessibility-widget-root *, #slide-navigation-container *), h3:not(#accessibility-widget-root *, #slide-navigation-container *), h4:not(#accessibility-widget-root *, #slide-navigation-container *), h5:not(#accessibility-widget-root *, #slide-navigation-container *), h6:not(#accessibility-widget-root *, #slide-navigation-container *) { background-color: #FFFF00 !important; color: #000 !important; border: 2px solid #000 !important; padding: 4px !important; border-radius: 4px !important; }`
+      dynamicCSS += `h1:not(#accessibility-widget-root):not(#accessibility-widget-root *):not(#accessibility-widget-container):not(#accessibility-widget-container *):not(.acc-exclude-color):not(.acc-exclude-color *), h2:not(#accessibility-widget-root):not(#accessibility-widget-root *):not(#accessibility-widget-container):not(#accessibility-widget-container *):not(.acc-exclude-color):not(.acc-exclude-color *), h3:not(#accessibility-widget-root):not(#accessibility-widget-root *):not(#accessibility-widget-container):not(#accessibility-widget-container *):not(.acc-exclude-color):not(.acc-exclude-color *), h4:not(#accessibility-widget-root):not(#accessibility-widget-root *):not(#accessibility-widget-container):not(#accessibility-widget-container *):not(.acc-exclude-color):not(.acc-exclude-color *), h5:not(#accessibility-widget-root):not(#accessibility-widget-root *):not(#accessibility-widget-container):not(#accessibility-widget-container *):not(.acc-exclude-color):not(.acc-exclude-color *), h6:not(#accessibility-widget-root):not(#accessibility-widget-root *):not(#accessibility-widget-container):not(#accessibility-widget-container *):not(.acc-exclude-color):not(.acc-exclude-color *) { background-color: #FFFF00 !important; color: #000 !important; border: 2px solid #000 !important; padding: 4px !important; border-radius: 4px !important; }`
     }
 
     if (s.imagesHidden) {
-      dynamicCSS += `img:not(#accessibility-widget-root *), svg:not(#accessibility-widget-root *, #slide-navigation-container *), [style*="background-image"]:not(#accessibility-widget-root *) { visibility: hidden !important; opacity: 0 !important; }`
+      dynamicCSS += `img:not(#accessibility-widget-root):not(#accessibility-widget-root *):not(#accessibility-widget-container):not(#accessibility-widget-container *):not(.acc-exclude-color):not(.acc-exclude-color *), svg:not(#accessibility-widget-root):not(#accessibility-widget-root *):not(#accessibility-widget-container):not(#accessibility-widget-container *):not(.acc-exclude-color):not(.acc-exclude-color *), [style*="background-image"]:not(#accessibility-widget-root):not(#accessibility-widget-root *):not(#accessibility-widget-container):not(#accessibility-widget-container *):not(.acc-exclude-color):not(.acc-exclude-color *) { visibility: hidden !important; opacity: 0 !important; }`
     }
 
     if (s.dyslexiaStyle > 0) {
       const fonts = ['', "'OpenDyslexic', sans-serif", "'Comic Sans MS', cursive", "'Verdana', sans-serif", "'Roboto', sans-serif"]
-      dynamicCSS += `*:not(#accessibility-widget-root, #accessibility-widget-root *, #slide-navigation-container, #slide-navigation-container *) { font-family: ${fonts[s.dyslexiaStyle]} !important; }`
+      dynamicCSS += `*:not(#accessibility-widget-root):not(#accessibility-widget-root *):not(#accessibility-widget-container):not(#accessibility-widget-container *):not(.acc-exclude-color):not(.acc-exclude-color *) { font-family: ${fonts[s.dyslexiaStyle]} !important; }`
     }
 
     styleTag.innerHTML = dynamicCSS

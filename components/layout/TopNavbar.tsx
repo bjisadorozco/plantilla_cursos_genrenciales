@@ -2,6 +2,7 @@
 
 import { ChevronLeft, Home, Accessibility, Menu } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { useAppTranslation, TranslatedText } from '@/contexts/TranslationContext'
 
 interface TopNavbarProps {
@@ -13,6 +14,7 @@ interface TopNavbarProps {
   slideIndicator?: string
   onMenuClick?: () => void
   onAccessibilityClick?: () => void
+  transparent?: boolean
 }
 
 // Flag SVG components
@@ -41,6 +43,28 @@ function USFlag() {
   )
 }
 
+export function LanguageToggle() {
+  const { language, setLanguage } = useAppTranslation()
+
+  const toggleLanguage = () => {
+    const newLang = language === 'es' ? 'en' : 'es'
+    setLanguage(newLang)
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={toggleLanguage}
+      className="p-1.5 rounded-lg hover:bg-muted transition-colors flex items-center gap-1.5 shadow-sm bg-white border border-border cursor-pointer"
+      aria-label={language === 'es' ? 'Switch to English' : 'Cambiar a Español'}
+      title={language === 'es' ? 'Switch to English' : 'Cambiar a Español'}
+    >
+      {language === 'es' ? <SpainFlag /> : <USFlag />}
+      <span className="text-xs font-semibold text-gray-700 uppercase">{language}</span>
+    </button>
+  )
+}
+
 export function TopNavbar({
   showBack = true,
   showHome = true,
@@ -50,22 +74,24 @@ export function TopNavbar({
   slideIndicator,
   onMenuClick,
   onAccessibilityClick,
+  transparent = false,
 }: TopNavbarProps) {
   const { language, setLanguage } = useAppTranslation()
   const router = useRouter()
 
   const toggleLanguage = () => {
-    setLanguage(language === 'es' ? 'en' : 'es')
+    const newLang = language === 'es' ? 'en' : 'es'
+    setLanguage(newLang)
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border acc-exclude-color">
+    <nav className={`fixed top-0 left-0 right-0 z-50 acc-exclude-color ${transparent ? 'bg-transparent border-none backdrop-blur-none' : 'bg-background/95 backdrop-blur-sm border-b border-border'}`}>
       <div className="max-w-[800px] mx-auto px-4 h-14 flex items-center justify-between">
         <div className="flex items-center gap-2">
           {showBack && (
             <button
               onClick={() => router.back()}
-              className="p-2 rounded-full hover:bg-muted transition-colors"
+              className="p-2 rounded-full hover:bg-muted transition-colors cursor-pointer"
               aria-label="Volver"
             >
               <ChevronLeft className="w-5 h-5 text-gray-dark" />
@@ -73,13 +99,13 @@ export function TopNavbar({
           )}
           
           {showHome && (
-            <button
-              onClick={() => router.push('/')}
-              className="p-2 rounded-full hover:bg-muted transition-colors"
+            <a
+              href="/"
+              className="p-2 rounded-full hover:bg-muted transition-colors cursor-pointer"
               aria-label="Inicio"
             >
-              <Home className="w-5 h-5 text-primary" />
-            </button>
+              <Home className="w-5 h-5 text-[#6e3cd2]" />
+            </a>
           )}
         </div>
 
@@ -93,31 +119,19 @@ export function TopNavbar({
           {showAccessibility && (
             <button
               onClick={onAccessibilityClick}
-              className="p-2.5 rounded-full bg-[#f0f4f8] hover:bg-[#e1e8f0] transition-colors shadow-sm"
+              className="p-2.5 rounded-full bg-[#f0f4f8] hover:bg-[#e1e8f0] transition-colors shadow-sm cursor-pointer"
               aria-label="Accessibility options"
             >
               <Accessibility className="w-5 h-5 text-[#91208a]" />
             </button>
           )}
           
-          {showLanguage && (
-            <button
-              onClick={toggleLanguage}
-              className="p-1.5 rounded-lg border border-border hover:bg-muted transition-colors flex items-center gap-1.5 shadow-sm bg-white"
-              aria-label={language === 'es' ? 'Switch to English' : 'Cambiar a Español'}
-              title={language === 'es' ? 'Switch to English' : 'Cambiar a Español'}
-            >
-              {language === 'es' ? <SpainFlag /> : <USFlag />}
-              <span className="text-xs font-semibold text-gray-700 uppercase">
-                {language}
-              </span>
-            </button>
-          )}
+          {showLanguage && <LanguageToggle />}
           
           {showMenu && (
             <button
               onClick={onMenuClick}
-              className="p-2 rounded-full hover:bg-muted transition-colors"
+              className="p-2 rounded-full hover:bg-muted transition-colors cursor-pointer"
               aria-label="Menú"
             >
               <Menu className="w-6 h-6 text-[#91208a]" />
